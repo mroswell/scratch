@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn HTML from the Recipe Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;600&family=Newsreader:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #FBF8F3;
+            --dark-green: #1A3A2E;
+            --sage: #7A9D7A;
+            --terracotta: #C17855;
+            --warm-white: #FFFEF9;
+            --charcoal: #2C2C2C;
+            --correct: #4CAF50;
+            --incorrect: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Newsreader', serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--dark-green);
+            color: var(--warm-white);
+            border-radius: 16px;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .instructions {
+            background: var(--warm-white);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .instructions h2 {
+            font-family: 'Fraunces', serif;
+            color: var(--dark-green);
+            margin-bottom: 1rem;
+        }
+
+        .instructions code {
+            background: var(--cream);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--terracotta);
+        }
+
+        .question-card {
+            background: var(--warm-white);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .question-card.correct {
+            border-left: 6px solid var(--correct);
+        }
+
+        .question-card.incorrect {
+            border-left: 6px solid var(--incorrect);
+        }
+
+        .question-number {
+            font-family: 'Fraunces', serif;
+            color: var(--sage);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--dark-green);
+        }
+
+        .hint {
+            background: var(--cream);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--sage);
+        }
+
+        .hint strong {
+            color: var(--terracotta);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .option {
+            background: var(--cream);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .option:hover {
+            border-color: var(--sage);
+            transform: translateX(5px);
+        }
+
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .option.selected {
+            background: var(--sage);
+            color: var(--warm-white);
+            border-color: var(--sage);
+        }
+
+        .option.correct-answer {
+            background: var(--correct);
+            color: white;
+            border-color: var(--correct);
+        }
+
+        .option.incorrect-answer {
+            background: var(--incorrect);
+            color: white;
+            border-color: var(--incorrect);
+        }
+
+        .feedback {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: rgba(76, 175, 80, 0.1);
+            border: 2px solid var(--correct);
+        }
+
+        .feedback.incorrect {
+            background: rgba(244, 67, 54, 0.1);
+            border: 2px solid var(--incorrect);
+        }
+
+        .feedback h3 {
+            margin-bottom: 0.5rem;
+            font-family: 'Fraunces', serif;
+        }
+
+        .feedback.correct h3 {
+            color: var(--correct);
+        }
+
+        .feedback.incorrect h3 {
+            color: var(--incorrect);
+        }
+
+        .code-reference {
+            background: #2C2C2C;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .code-reference .line-number {
+            color: #75715e;
+            margin-right: 1rem;
+        }
+
+        .check-btn {
+            background: var(--terracotta);
+            color: var(--warm-white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Newsreader', serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .check-btn:hover {
+            background: var(--dark-green);
+            transform: translateY(-2px);
+        }
+
+        .check-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .score-board {
+            background: var(--dark-green);
+            color: var(--warm-white);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            position: sticky;
+            top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .score-board h2 {
+            font-family: 'Fraunces', serif;
+            margin-bottom: 1rem;
+        }
+
+        .score {
+            font-size: 3rem;
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .question {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 Learn HTML from the Recipe Website</h1>
+            <p class="subtitle">Interactive quiz to understand HTML structure and elements</p>
+        </header>
+
+        <div class="instructions">
+            <h2>How to Use This Quiz</h2>
+            <p>Each question below relates to the HTML code in the recipe website. Open the <code>index.html</code> file from the recipe website in a text editor, and use it to find the answers! The hints will guide you to specific parts of the code.</p>
+            <p style="margin-top: 1rem;"><strong>Tip:</strong> Use your text editor's search function (Ctrl+F or Cmd+F) to find the code sections mentioned in the hints.</p>
+        </div>
+
+        <div class="score-board">
+            <h2>Your Score</h2>
+            <div class="score"><span id="scoreValue">0</span> / 15</div>
+        </div>
+
+        <!-- Question 1 -->
+        <div class="question-card" data-question="1" data-correct="b">
+            <div class="question-number">Question 1 of 15</div>
+            <div class="question">What is the first line of the HTML document?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Check the very first line of the <code>index.html</code> file. This line appears before the <code>&lt;html&gt;</code> tag.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q1" value="a">
+                    <span>&lt;html lang="en"&gt;</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q1" value="b">
+                    <span>&lt;!DOCTYPE html&gt;</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q1" value="c">
+                    <span>&lt;head&gt;</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q1" value="d">
+                    <span>&lt;meta charset="UTF-8"&gt;</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="1">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-card" data-question="2" data-correct="c">
+            <div class="question-number">Question 2 of 15</div>
+            <div class="question">What does the &lt;meta charset="UTF-8"&gt; tag do?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Find this tag in the <code>&lt;head&gt;</code> section. It's on line 4 of the recipe website code.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q2" value="a">
+                    <span>Sets the page title</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q2" value="b">
+                    <span>Links to a stylesheet</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q2" value="c">
+                    <span>Specifies the character encoding for the document</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q2" value="d">
+                    <span>Makes the page responsive</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="2">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-card" data-question="3" data-correct="b">
+            <div class="question-number">Question 3 of 15</div>
+            <div class="question">Where is CSS styling defined in our recipe website?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Look in the <code>&lt;head&gt;</code> section. Find the opening and closing <code>&lt;style&gt;</code> tags.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q3" value="a">
+                    <span>In a separate .css file</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q3" value="b">
+                    <span>Inside &lt;style&gt; tags in the &lt;head&gt;</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q3" value="c">
+                    <span>Using inline style attributes on each element</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q3" value="d">
+                    <span>CSS is not used in this website</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="3">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-card" data-question="4" data-correct="a">
+            <div class="question-number">Question 4 of 15</div>
+            <div class="question">What does the &lt;header&gt; tag contain in the recipe website?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Search for <code>&lt;header class="header"&gt;</code> in the HTML body. Look at what's inside this element.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q4" value="a">
+                    <span>The title "Whole Food Plant-Based" and subtitle</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q4" value="b">
+                    <span>The search box</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q4" value="c">
+                    <span>Recipe cards</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q4" value="d">
+                    <span>Navigation menu</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="4">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-card" data-question="5" data-correct="c">
+            <div class="question-number">Question 5 of 15</div>
+            <div class="question">What type of input element is used for the search box?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Find the element with <code>id="searchInput"</code>. Look at the <code>type</code> attribute.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q5" value="a">
+                    <span>type="search"</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q5" value="b">
+                    <span>type="input"</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q5" value="c">
+                    <span>type="text"</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q5" value="d">
+                    <span>type="query"</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="5">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-card" data-question="6" data-correct="d">
+            <div class="question-number">Question 6 of 15</div>
+            <div class="question">What is the purpose of the "id" attribute on elements like id="searchInput"?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Look at how <code>id="searchInput"</code> is used in the JavaScript. Search for <code>document.getElementById('searchInput')</code>.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q6" value="a">
+                    <span>To style the element with CSS</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q6" value="b">
+                    <span>To make the element visible</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q6" value="c">
+                    <span>To group multiple elements</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q6" value="d">
+                    <span>To uniquely identify an element for JavaScript or CSS targeting</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="6">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question-card" data-question="7" data-correct="a">
+            <div class="question-number">Question 7 of 15</div>
+            <div class="question">What HTML tag is used to contain the recipe cards?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Find the element with <code>id="recipeGrid"</code>. What is the tag name?
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q7" value="a">
+                    <span>&lt;div&gt;</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q7" value="b">
+                    <span>&lt;section&gt;</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q7" value="c">
+                    <span>&lt;grid&gt;</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q7" value="d">
+                    <span>&lt;container&gt;</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="7">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question-card" data-question="8" data-correct="b">
+            <div class="question-number">Question 8 of 15</div>
+            <div class="question">What does the &lt;main&gt; tag represent?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Find <code>&lt;main class="container"&gt;</code> in the body. The &lt;main&gt; tag is a semantic HTML5 element.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q8" value="a">
+                    <span>The header of the page</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="b">
+                    <span>The main/primary content of the page</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="c">
+                    <span>The navigation menu</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q8" value="d">
+                    <span>The footer of the page</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="8">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question-card" data-question="9" data-correct="c">
+            <div class="question-number">Question 9 of 15</div>
+            <div class="question">What does the "class" attribute do?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Notice elements like <code>class="recipe-card"</code>. Then look in the CSS section for <code>.recipe-card</code> styles.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q9" value="a">
+                    <span>It uniquely identifies one element</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q9" value="b">
+                    <span>It makes the element clickable</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q9" value="c">
+                    <span>It groups elements together so they can share the same CSS styling</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q9" value="d">
+                    <span>It defines the element's content</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="9">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question-card" data-question="10" data-correct="d">
+            <div class="question-number">Question 10 of 15</div>
+            <div class="question">Where is JavaScript code written in the recipe website?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Scroll to the bottom of the HTML file, after all the body content. Look for opening and closing <code>&lt;script&gt;</code> tags.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q10" value="a">
+                    <span>In a separate .js file</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q10" value="b">
+                    <span>In the &lt;head&gt; section</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q10" value="c">
+                    <span>Using onclick attributes on elements</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q10" value="d">
+                    <span>Inside &lt;script&gt; tags at the bottom of the &lt;body&gt;</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="10">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 11 -->
+        <div class="question-card" data-question="11" data-correct="a">
+            <div class="question-number">Question 11 of 15</div>
+            <div class="question">What does the &lt;footer&gt; element contain?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Find <code>&lt;footer class="footer"&gt;</code> near the end of the body. The footer is a semantic HTML5 element for page footers.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q11" value="a">
+                    <span>Information about adding recipes and a GitHub link</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q11" value="b">
+                    <span>The search functionality</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q11" value="c">
+                    <span>Recipe cards</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q11" value="d">
+                    <span>The page title</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="11">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 12 -->
+        <div class="question-card" data-question="12" data-correct="c">
+            <div class="question-number">Question 12 of 15</div>
+            <div class="question">What attribute makes the close button (×) close the modal when clicked?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Find the close button with <code>class="close-modal"</code>. Look for an attribute that starts with "on".
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q12" value="a">
+                    <span>onhover="closeModal()"</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q12" value="b">
+                    <span>onpress="closeModal()"</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q12" value="c">
+                    <span>onclick="closeModal()"</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q12" value="d">
+                    <span>ontouch="closeModal()"</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="12">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 13 -->
+        <div class="question-card" data-question="13" data-correct="b">
+            <div class="question-number">Question 13 of 15</div>
+            <div class="question">What does the "placeholder" attribute do on the search input?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Find <code>id="searchInput"</code> and look at the <code>placeholder</code> attribute's value.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q13" value="a">
+                    <span>Sets the default value that gets submitted</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q13" value="b">
+                    <span>Shows hint text that disappears when you type</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q13" value="c">
+                    <span>Makes the input required</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q13" value="d">
+                    <span>Sets the input's name</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="13">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 14 -->
+        <div class="question-card" data-question="14" data-correct="a">
+            <div class="question-number">Question 14 of 15</div>
+            <div class="question">What HTML structure creates the hierarchy: header content inside header inside body?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Find the <code>&lt;header&gt;</code> tag and see what's nested inside it. Notice the indentation showing parent-child relationships.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q14" value="a">
+                    <span>Nested tags: &lt;header&gt; contains &lt;div class="header-content"&gt;</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q14" value="b">
+                    <span>Multiple separate tags side by side</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q14" value="c">
+                    <span>Using the parent attribute</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q14" value="d">
+                    <span>Using the id attribute</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="14">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+        <!-- Question 15 -->
+        <div class="question-card" data-question="15" data-correct="c">
+            <div class="question-number">Question 15 of 15</div>
+            <div class="question">How are external libraries like marked.js loaded in the recipe website?</div>
+            <div class="hint">
+                <strong>Where to look:</strong> Search for "marked" in the <code>&lt;head&gt;</code> section. Look for a <code>&lt;script&gt;</code> tag with a <code>src</code> attribute.
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q15" value="a">
+                    <span>They're built into HTML</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q15" value="b">
+                    <span>Using &lt;link&gt; tags</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q15" value="c">
+                    <span>Using &lt;script src="..."&gt; tags pointing to a CDN</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q15" value="d">
+                    <span>They don't need to be loaded</span>
+                </label>
+            </div>
+            <button class="check-btn" data-question-btn="15">Check Answer</button>
+            <div class="feedback">
+                <h3></h3>
+                <p class="explanation"></p>
+                <div class="code-reference"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const answers = {
+            1: {
+                correct: 'b',
+                explanation: 'The DOCTYPE declaration tells the browser this is an HTML5 document. It must be the very first thing in the HTML file, even before the <html> tag.',
+                code: '<!DOCTYPE html>'
+            },
+            2: {
+                correct: 'c',
+                explanation: 'The charset meta tag specifies that the document uses UTF-8 character encoding, which supports all languages and special characters. This is important for displaying international text correctly.',
+                code: '<meta charset="UTF-8">'
+            },
+            3: {
+                correct: 'b',
+                explanation: 'The CSS is embedded directly in the HTML file within <style> tags in the <head> section. This is called "internal CSS". Alternatively, CSS can be in external .css files (external CSS) or inline using style attributes.',
+                code: '<head>\n  ...\n  <style>\n    /* CSS rules here */\n  </style>\n</head>'
+            },
+            4: {
+                correct: 'a',
+                explanation: 'The <header> element contains the main page heading "Whole Food Plant-Based" and a subtitle. Headers are semantic HTML5 elements that typically contain introductory content.',
+                code: '<header class="header">\n  <div class="header-content">\n    <h1>Whole Food Plant-Based</h1>\n    <p class="subtitle">Nourishing recipes from nature\'s garden</p>\n  </div>\n</header>'
+            },
+            5: {
+                correct: 'c',
+                explanation: 'The search input uses type="text", which is the standard input type for single-line text entry. While type="search" exists, type="text" is more universally supported.',
+                code: '<input type="text" id="searchInput" placeholder="...">'
+            },
+            6: {
+                correct: 'd',
+                explanation: 'The id attribute provides a unique identifier for an element. JavaScript uses document.getElementById() to find elements, and CSS can target them with #idName. Each id must be unique on the page.',
+                code: 'HTML: <input type="text" id="searchInput">\n\nJavaScript: const searchInput = document.getElementById(\'searchInput\');\n\nCSS: #searchInput { /* styles */ }'
+            },
+            7: {
+                correct: 'a',
+                explanation: '<div> (division) is a generic container element used to group content. It has no semantic meaning but is perfect for layout and styling purposes. The recipe grid uses a div.',
+                code: '<div id="recipeGrid" class="recipe-grid"></div>'
+            },
+            8: {
+                correct: 'b',
+                explanation: 'The <main> tag is a semantic HTML5 element that contains the primary content of the page. There should only be one <main> element per page, and it shouldn\'t contain repeated content like headers or footers.',
+                code: '<main class="container">\n  <div id="recipeGrid" class="recipe-grid"></div>\n  <div id="noResults" class="no-results hidden">...</div>\n</main>'
+            },
+            9: {
+                correct: 'c',
+                explanation: 'The class attribute lets you group multiple elements together. Unlike id (which must be unique), multiple elements can share the same class. CSS targets classes with .className',
+                code: 'HTML: <div class="recipe-card">...</div>\n       <div class="recipe-card">...</div>\n\nCSS: .recipe-card {\n  background: white;\n  border-radius: 12px;\n}'
+            },
+            10: {
+                correct: 'd',
+                explanation: 'JavaScript is placed in <script> tags at the bottom of the <body>, right before the closing </body> tag. This ensures the HTML loads first, so JavaScript can interact with all the elements.',
+                code: '  </footer>\n\n  <script>\n    // JavaScript code here\n  </script>\n</body>'
+            },
+            11: {
+                correct: 'a',
+                explanation: 'The <footer> element is a semantic HTML5 tag for footer content. In this site, it contains instructions for adding recipes and a link to GitHub. Footers typically contain copyright, links, and site info.',
+                code: '<footer class="footer">\n  <p>Add new recipes by creating markdown files...</p>\n  <p><a href="https://github.com">View on GitHub</a></p>\n</footer>'
+            },
+            12: {
+                correct: 'c',
+                explanation: 'The onclick attribute is an "event handler" that runs JavaScript code when the element is clicked. onclick="closeModal()" calls the closeModal() function when clicked.',
+                code: '<button class="close-modal" onclick="closeModal()">&times;</button>'
+            },
+            13: {
+                correct: 'b',
+                explanation: 'The placeholder attribute shows gray hint text inside an input field. This text disappears when the user starts typing and reappears if the field becomes empty again.',
+                code: '<input\n  type="text"\n  id="searchInput"\n  placeholder="Search recipes by ingredient, tag, or description..."\n>'
+            },
+            14: {
+                correct: 'a',
+                explanation: 'HTML creates hierarchy through nesting - placing tags inside other tags. The indentation in the code shows parent-child relationships: header contains header-content, which contains h1 and p.',
+                code: '<header class="header">\n  <div class="header-content">\n    <h1>Whole Food Plant-Based</h1>\n    <p class="subtitle">Nourishing recipes...</p>\n  </div>\n</header>'
+            },
+            15: {
+                correct: 'c',
+                explanation: 'External JavaScript libraries are loaded using <script> tags with a src attribute pointing to a URL (usually a CDN - Content Delivery Network). The marked.js library is loaded this way.',
+                code: '<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>'
+            }
+        };
+
+        let score = 0;
+        const answeredQuestions = new Set();
+
+        // Add event listeners to all check buttons
+        document.querySelectorAll('[data-question-btn]').forEach(button => {
+            button.addEventListener('click', function() {
+                const questionNum = parseInt(this.getAttribute('data-question-btn'));
+                checkAnswer(questionNum);
+            });
+        });
+
+        function checkAnswer(questionNum) {
+            if (answeredQuestions.has(questionNum)) {
+                return; // Already answered
+            }
+
+            const card = document.querySelector(`[data-question="${questionNum}"]`);
+            const selectedOption = card.querySelector('input[type="radio"]:checked');
+            
+            if (!selectedOption) {
+                alert('Please select an answer first!');
+                return;
+            }
+
+            const userAnswer = selectedOption.value;
+            const correctAnswer = answers[questionNum].correct;
+            const isCorrect = userAnswer === correctAnswer;
+            
+            // Mark question as answered
+            answeredQuestions.add(questionNum);
+            
+            // Disable all options
+            card.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.disabled = true;
+            });
+
+            // Highlight correct and incorrect answers
+            card.querySelectorAll('.option').forEach(option => {
+                const input = option.querySelector('input[type="radio"]');
+                if (input.value === correctAnswer) {
+                    option.classList.add('correct-answer');
+                } else if (input.value === userAnswer && !isCorrect) {
+                    option.classList.add('incorrect-answer');
+                }
+            });
+
+            // Show feedback
+            const feedback = card.querySelector('.feedback');
+            const feedbackTitle = feedback.querySelector('h3');
+            const explanation = feedback.querySelector('.explanation');
+            const codeRef = feedback.querySelector('.code-reference');
+
+            feedback.classList.add('show');
+            
+            if (isCorrect) {
+                card.classList.add('correct');
+                feedback.classList.add('correct');
+                feedbackTitle.textContent = '✓ Correct!';
+                score++;
+            } else {
+                card.classList.add('incorrect');
+                feedback.classList.add('incorrect');
+                feedbackTitle.textContent = '✗ Not quite';
+            }
+
+            explanation.textContent = answers[questionNum].explanation;
+            codeRef.textContent = answers[questionNum].code;
+
+            // Update score
+            document.getElementById('scoreValue').textContent = score;
+
+            // Disable check button
+            card.querySelector('.check-btn').disabled = true;
+
+            // Scroll to feedback
+            feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Allow checking answer by pressing Enter
+        document.querySelectorAll('.question-card').forEach((card, index) => {
+            card.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    checkAnswer(index + 1);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
