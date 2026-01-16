@@ -797,7 +797,8 @@
     </div>
 
     <script>
-        const answers = {
+        document.addEventListener('DOMContentLoaded', function() {
+            const answers = {
             1: {
                 correct: 'b',
                 explanation: 'The DOCTYPE declaration tells the browser this is an HTML5 document. It must be the very first thing in the HTML file, even before the <html> tag.',
@@ -810,13 +811,13 @@
             },
             3: {
                 correct: 'b',
-                explanation: 'The CSS is embedded directly in the HTML file within <style> tags in the <head> section. This is called "internal CSS". Alternatively, CSS can be in external .css files (external CSS) or inline using style attributes.',
-                code: '<head>\n  ...\n  <style>\n    /* CSS rules here */\n  </style>\n</head>'
+                explanation: 'The CSS is embedded directly in the HTML file within &lt;style&gt; tags in the &lt;head&gt; section. This is called "internal CSS". Alternatively, CSS can be in external .css files (external CSS) or inline using style attributes.',
+                code: '&lt;head&gt;\\n  ...\\n  &lt;style&gt;\\n    /* CSS rules here */\\n  &lt;/style&gt;\\n&lt;/head&gt;'
             },
             4: {
                 correct: 'a',
-                explanation: 'The <header> element contains the main page heading "Whole Food Plant-Based" and a subtitle. Headers are semantic HTML5 elements that typically contain introductory content.',
-                code: '<header class="header">\n  <div class="header-content">\n    <h1>Whole Food Plant-Based</h1>\n    <p class="subtitle">Nourishing recipes from nature\'s garden</p>\n  </div>\n</header>'
+                explanation: 'The &lt;header&gt; element contains the main page heading "Whole Food Plant-Based" and a subtitle. Headers are semantic HTML5 elements that typically contain introductory content.',
+                code: '&lt;header class="header"&gt;\\n  &lt;div class="header-content"&gt;\\n    &lt;h1&gt;Whole Food Plant-Based&lt;/h1&gt;\\n    &lt;p class="subtitle"&gt;Nourishing recipes from nature&apos;s garden&lt;/p&gt;\\n  &lt;/div&gt;\\n&lt;/header&gt;'
             },
             5: {
                 correct: 'c',
@@ -826,32 +827,32 @@
             6: {
                 correct: 'd',
                 explanation: 'The id attribute provides a unique identifier for an element. JavaScript uses document.getElementById() to find elements, and CSS can target them with #idName. Each id must be unique on the page.',
-                code: 'HTML: <input type="text" id="searchInput">\n\nJavaScript: const searchInput = document.getElementById(\'searchInput\');\n\nCSS: #searchInput { /* styles */ }'
+                code: 'HTML: &lt;input type="text" id="searchInput"&gt;\\n\\nJavaScript: const searchInput = document.getElementById("searchInput");\\n\\nCSS: #searchInput { /* styles */ }'
             },
             7: {
                 correct: 'a',
-                explanation: '<div> (division) is a generic container element used to group content. It has no semantic meaning but is perfect for layout and styling purposes. The recipe grid uses a div.',
-                code: '<div id="recipeGrid" class="recipe-grid"></div>'
+                explanation: '&lt;div&gt; (division) is a generic container element used to group content. It has no semantic meaning but is perfect for layout and styling purposes. The recipe grid uses a div.',
+                code: '&lt;div id="recipeGrid" class="recipe-grid"&gt;&lt;/div&gt;'
             },
             8: {
                 correct: 'b',
-                explanation: 'The <main> tag is a semantic HTML5 element that contains the primary content of the page. There should only be one <main> element per page, and it shouldn\'t contain repeated content like headers or footers.',
-                code: '<main class="container">\n  <div id="recipeGrid" class="recipe-grid"></div>\n  <div id="noResults" class="no-results hidden">...</div>\n</main>'
+                explanation: 'The &lt;main&gt; tag is a semantic HTML5 element that contains the primary content of the page. There should only be one &lt;main&gt; element per page, and it shouldn&apos;t contain repeated content like headers or footers.',
+                code: '&lt;main class="container"&gt;\\n  &lt;div id="recipeGrid" class="recipe-grid"&gt;&lt;/div&gt;\\n  &lt;div id="noResults" class="no-results hidden"&gt;...&lt;/div&gt;\\n&lt;/main&gt;'
             },
             9: {
                 correct: 'c',
                 explanation: 'The class attribute lets you group multiple elements together. Unlike id (which must be unique), multiple elements can share the same class. CSS targets classes with .className',
-                code: 'HTML: <div class="recipe-card">...</div>\n       <div class="recipe-card">...</div>\n\nCSS: .recipe-card {\n  background: white;\n  border-radius: 12px;\n}'
+                code: 'HTML: &lt;div class="recipe-card"&gt;...&lt;/div&gt;\\n       &lt;div class="recipe-card"&gt;...&lt;/div&gt;\\n\\nCSS: .recipe-card {\\n  background: white;\\n  border-radius: 12px;\\n}'
             },
             10: {
                 correct: 'd',
-                explanation: 'JavaScript is placed in <script> tags at the bottom of the <body>, right before the closing </body> tag. This ensures the HTML loads first, so JavaScript can interact with all the elements.',
-                code: '  </footer>\n\n  <script>\n    // JavaScript code here\n  </script>\n</body>'
+                explanation: 'JavaScript is placed in &lt;script&gt; tags at the bottom of the &lt;body&gt;, right before the closing &lt;/body&gt; tag. This ensures the HTML loads first, so JavaScript can interact with all the elements.',
+                code: '  &lt;/footer&gt;\\n\\n  &lt;script&gt;\\n    // JavaScript code here\\n  &lt;/script&gt;\\n&lt;/body&gt;'
             },
             11: {
                 correct: 'a',
-                explanation: 'The <footer> element is a semantic HTML5 tag for footer content. In this site, it contains instructions for adding recipes and a link to GitHub. Footers typically contain copyright, links, and site info.',
-                code: '<footer class="footer">\n  <p>Add new recipes by creating markdown files...</p>\n  <p><a href="https://github.com">View on GitHub</a></p>\n</footer>'
+                explanation: 'The &lt;footer&gt; element is a semantic HTML5 tag for footer content. In this site, it contains instructions for adding recipes and a link to GitHub. Footers typically contain copyright, links, and site info.',
+                code: '&lt;footer class="footer"&gt;\\n  &lt;p&gt;Add new recipes by creating markdown files...&lt;/p&gt;\\n  &lt;p&gt;&lt;a href="https://github.com"&gt;View on GitHub&lt;/a&gt;&lt;/p&gt;\\n&lt;/footer&gt;'
             },
             12: {
                 correct: 'c',
@@ -861,12 +862,12 @@
             13: {
                 correct: 'b',
                 explanation: 'The placeholder attribute shows gray hint text inside an input field. This text disappears when the user starts typing and reappears if the field becomes empty again.',
-                code: '<input\n  type="text"\n  id="searchInput"\n  placeholder="Search recipes by ingredient, tag, or description..."\n>'
+                code: '&lt;input\\n  type="text"\\n  id="searchInput"\\n  placeholder="Search recipes by ingredient, tag, or description..."\\n&gt;'
             },
             14: {
                 correct: 'a',
                 explanation: 'HTML creates hierarchy through nesting - placing tags inside other tags. The indentation in the code shows parent-child relationships: header contains header-content, which contains h1 and p.',
-                code: '<header class="header">\n  <div class="header-content">\n    <h1>Whole Food Plant-Based</h1>\n    <p class="subtitle">Nourishing recipes...</p>\n  </div>\n</header>'
+                code: '&lt;header class="header"&gt;\\n  &lt;div class="header-content"&gt;\\n    &lt;h1&gt;Whole Food Plant-Based&lt;/h1&gt;\\n    &lt;p class="subtitle"&gt;Nourishing recipes...&lt;/p&gt;\\n  &lt;/div&gt;\\n&lt;/header&gt;'
             },
             15: {
                 correct: 'c',
@@ -941,7 +942,11 @@
             }
 
             explanation.textContent = answers[questionNum].explanation;
-            codeRef.textContent = answers[questionNum].code;
+            
+            // Decode HTML entities for code display
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = answers[questionNum].code;
+            codeRef.textContent = tempDiv.textContent;
 
             // Update score
             document.getElementById('scoreValue').textContent = score;
