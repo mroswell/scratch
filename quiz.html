@@ -801,13 +801,13 @@
             const answers = {
             1: {
                 correct: 'b',
-                explanation: 'The DOCTYPE declaration tells the browser this is an HTML5 document. It must be the very first thing in the HTML file, even before the <html> tag.',
-                code: '<!DOCTYPE html>'
+                explanation: 'The DOCTYPE declaration tells the browser this is an HTML5 document. It must be the very first thing in the HTML file, even before the &lt;html&gt; tag.',
+                code: '&lt;!DOCTYPE html&gt;'
             },
             2: {
                 correct: 'c',
                 explanation: 'The charset meta tag specifies that the document uses UTF-8 character encoding, which supports all languages and special characters. This is important for displaying international text correctly.',
-                code: '<meta charset="UTF-8">'
+                code: '&lt;meta charset="UTF-8"&gt;'
             },
             3: {
                 correct: 'b',
@@ -822,7 +822,7 @@
             5: {
                 correct: 'c',
                 explanation: 'The search input uses type="text", which is the standard input type for single-line text entry. While type="search" exists, type="text" is more universally supported.',
-                code: '<input type="text" id="searchInput" placeholder="...">'
+                code: '&lt;input type="text" id="searchInput" placeholder="..."&gt;'
             },
             6: {
                 correct: 'd',
@@ -857,7 +857,7 @@
             12: {
                 correct: 'c',
                 explanation: 'The onclick attribute is an "event handler" that runs JavaScript code when the element is clicked. onclick="closeModal()" calls the closeModal() function when clicked.',
-                code: '<button class="close-modal" onclick="closeModal()">&times;</button>'
+                code: '&lt;button class="close-modal" onclick="closeModal()"&gt;&amp;times;&lt;/button&gt;'
             },
             13: {
                 correct: 'b',
@@ -871,8 +871,8 @@
             },
             15: {
                 correct: 'c',
-                explanation: 'External JavaScript libraries are loaded using <script> tags with a src attribute pointing to a URL (usually a CDN - Content Delivery Network). The marked.js library is loaded this way.',
-                code: '<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>'
+                explanation: 'External JavaScript libraries are loaded using &lt;script&gt; tags with a src attribute pointing to a URL (usually a CDN - Content Delivery Network). The marked.js library is loaded this way.',
+                code: '&lt;script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"&gt;&lt;/script&gt;'
             }
         };
 
@@ -966,6 +966,7 @@
                 }
             });
         });
+        }); // Close DOMContentLoaded
     </script>
 </body>
 </html>
